@@ -1,10 +1,10 @@
 class AuthenticationController < ApplicationController
 
   def authenticate_user
-    user = User.find_for(email: params[:email])
+    user = User.find_by(email: params[:email])
 
     if user && user.authenticate(params[:password])
-      render json:
+      render json: payload(user)
     else
       render json: { errors: ['Invalid Username/Password']}, status: :unauthorized
     end
@@ -13,7 +13,7 @@ class AuthenticationController < ApplicationController
   private
 
   def payload(user)
-    return nil unless usesr.id
+    return nil unless user.id
     {
       auth_token: JsonWebToken.encode({ user_id: user.id })
     }

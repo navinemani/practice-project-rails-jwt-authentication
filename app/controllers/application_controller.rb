@@ -1,10 +1,11 @@
 class ApplicationController < ActionController::Base
+  protect_from_forgery with: :null_session
 
   attr_reader :current_user
 
   protected
 
-  def authenticate_request
+  def authenticate_request!
     if user_id_present?
       @current_user = User.find(auth_token[:user_id])
     else
