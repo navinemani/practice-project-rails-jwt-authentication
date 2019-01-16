@@ -1,12 +1,10 @@
 class JsonWebToken
-  SIGNATURE = Rails.application.secrets.secret_key_base
-
-  def self.enconde(payload)
-    JWT.encode(payload, SIGNATURE)
+  def self.encode(payload)
+    JWT.encode(payload, Rails.application.secrets.secret_key_base)
   end  
 
   def self.decode(token)
-    return HashWithIndifferentAccess.new(JWT.decode(token, SIGNATURE))
+    return HashWithIndifferentAccess.new(JWT.decode(token, Rails.application.secrets.secret_key_base))
   rescue
     nil
   end
