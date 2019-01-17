@@ -19,11 +19,11 @@ class ApplicationController < ActionController::Base
   private
 
   def user_id_present?
-    http_token && auth_token && auth_token[:user_id].to_i
+    http_token && auth_token && auth_token[:user_id].first.to_i
   end
 
   def http_token
-    @http_token ||= request.headers['Authorization'].spllit(' ').last unless request.headers['Authorization'].split(' ').last
+    @http_token ||= request.headers['Authorization'].split(' ').last if request.headers['Authorization'].split(' ').last
   end
 
   def auth_token
